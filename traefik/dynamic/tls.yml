@@ -1,0 +1,4 @@
+tls:
+  certificates:
+    - certFile: /docker/traefik/certs/local.crt
+      keyFile: /docker/traefik/certs/local.key
