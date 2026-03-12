@@ -1,0 +1,23 @@
+services:
+  termix:
+    image: ghcr.io/lukegus/termix:latest
+    container_name: termix
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      # - "traefik.http.routers.termix.rule=Host(`nukweb02.nuk.med.uni-muenchen.de`) && PathPrefix(`/termix`)"
+      - "traefik.http.routers.termix.rule=Host(`termix.nukweb02.nuk.med.uni-muenchen.de`)"
+      - "traefik.http.routers.termix.entrypoints=websecure"
+      - "traefik.http.services.termix.loadbalancer.server.port=8080"
+    volumes:
+      - ./termix-data:/app/data
+    networks:
+        proxy:
+
+volumes:
+  termix-data:
+    driver: local
+
+networks:
+  proxy:
+   external: true

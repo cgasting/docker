@@ -1,0 +1,33 @@
+services:
+  nexterm:
+   image: germannewsmaker/nexterm:latest
+   container_name: nexterm
+   environment:
+      ENCRYPTION_KEY: "aba3aa8e29b9904d5d8d705230b664c053415c54be20ad13be99af0057dfa23a"
+      # HTTP_PORT: 80
+      # HTTPS_PORT: 443
+   labels:
+      # - "traefik.enable=true"
+      # - "traefik.http.routers.nexterm.rule=PathPrefix(`/nexterm`)"
+      # - "traefik.http.routers.nexterm.entrypoints=websecure"
+      # - "traefik.http.services.nexterm.loadbalancer.server.port=6989"
+
+      # - "traefik.http.middlewares.nexterm.stripprefix.prefixes=/nexterm"
+      # - "traefik.http.routers.nexterm.middlewares=strip-nexterm"
+
+      - "traefik.enable=true"
+      # 1. Define the rule to match the path
+      - "traefik.http.routers.myservice.rule=PathPrefix(`/nexterm`)"
+
+      # 2. Apply the middleware to the router
+      - "traefik.http.routers.nexterm.middlewares=strip-nexterm"
+
+      # 3. mefine the middleware (StripPrefix)
+      - "traefik.http.middlewares.strip-nexterm.stripprefix.prefixes=/nexterm"
+
+   networks:
+     - proxy
+   restart: always
+   volumes:
+      - nexterm:/app/data
+
